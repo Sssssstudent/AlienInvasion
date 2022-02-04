@@ -6,7 +6,7 @@ class Settings():
 
         #параметры экрана
         self.screen_width = 2000
-        self.screen_heigt = 1300
+        self.screen_height = 1300
 
         # назначение цвета фона
         self.bg_color = (230, 230, 230)
