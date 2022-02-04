@@ -5,8 +5,6 @@ import pygame
 
 from settings import Settings
 from ship import Ship
-from SuperHeroes import SuperHeroes
-
 
 class AlienInvasion:
     """класс для управления ресурсами и поведением игры."""
@@ -23,7 +21,6 @@ class AlienInvasion:
         pygame.display.set_caption("Alien Invasion")
 
         self.ship = Ship(self)
-        self.hero = SuperHeroes(self)
 
 
 
@@ -68,7 +65,6 @@ class AlienInvasion:
         #обновляет изображение на экране и отображает новый экран.
         self.screen.fill(self.settings.bg_color)
         self.ship.blitme()
-        self.hero.blitme()
 
             #отображение последнего прорисованного экрана.
         pygame.display.flip()
