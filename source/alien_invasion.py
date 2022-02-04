@@ -16,6 +16,9 @@ class AlienInvasion:
 
         #Создаем окно
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_heigt))
+        self.screen_path = self.settings.screen_path
+        self.screen_image = pygame.image.load(self.screen_path)
+        self.screen_rect = self.screen.get_rect()
 
         #Надпись окна
         pygame.display.set_caption("Alien Invasion")
@@ -63,7 +66,7 @@ class AlienInvasion:
 
     def _update_screen(self):
         #обновляет изображение на экране и отображает новый экран.
-        self.screen.fill(self.settings.bg_color)
+        self.screen.blit(self.screen_image, self.screen_rect)
         self.ship.blitme()
 
             #отображение последнего прорисованного экрана.
