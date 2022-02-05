@@ -6,8 +6,8 @@ class Settings():
 
         #параметры экрана
         self.screen_path = 'D:/pycharm_projects/AlienInvasion/images/space.bmp'
-        self.ship_path = 'D:/pycharm_projects/AlienInvasion/images/ship2.bmp.bmp'
-        self.alien_path = 'D:/pycharm_projects/AlienInvasion/images/alien_original.bmp.bmp'
+        self.ship_path = 'D:/pycharm_projects/AlienInvasion/images/ship2.bmp.'
+        self.alien_path = 'D:/pycharm_projects/AlienInvasion/images/alien.bmp'
         self.screen_width = 1920
         self.screen_heigt = 1403
 

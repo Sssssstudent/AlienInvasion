@@ -6,6 +6,7 @@ import pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
 class AlienInvasion:
     """класс для управления ресурсами и поведением игры."""
@@ -24,8 +25,12 @@ class AlienInvasion:
         #Надпись окна
         pygame.display.set_caption("Alien Invasion")
 
+        # Create object of the ship and the groups for the aliens and the bullets
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+
+        self._create_fleet()
 
 
 
@@ -81,12 +86,30 @@ class AlienInvasion:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
+    def _create_fleet(self):
+        """ Create the invasion fleet"""
+        # Create an alien and compute the number of aliens per row
+        # The interval between two aliens is equal to the width of the alien
+        alien = Alien(self)
+        alien_width = alien.rect.width
+        available_space_x = self.settings.screen_width - (alien_width * 2)
+        number_aliens_x = available_space_x // (alien_width * 2)
+
+        # Create the alien fleet
+        for alien_number in range(number_aliens_x):
+            # Create an alien and place it in a row
+            alien = Alien(self)
+            alien.x = alien_width + (alien_number * (2 * alien_width))
+            alien.rect.x = alien.x
+            self.aliens.add(alien)
+
     def _update_screen(self):
         #обновляет изображение на экране и отображает новый экран.
         self.screen.blit(self.screen_image, self.screen_rect)
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+        self.aliens.draw(self.screen)
 
         #отображение последнего прорисованного экрана.
         pygame.display.flip()
