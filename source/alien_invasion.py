@@ -17,7 +17,13 @@ class AlienInvasion:
         self.settings = Settings()
 
         #Создаем окно
-        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_heigt))
+        if self.settings.fullscreen == True:
+            self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+            self.settings.screen_width = self.screen.get_rect().width
+            self.settings.screen_heigt = self.screen.get_rect().height
+        else:
+            self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_heigt))
+
         self.screen_path = self.settings.screen_path
         self.screen_image = pygame.image.load(self.screen_path)
         self.screen_rect = self.screen.get_rect()
@@ -40,6 +46,7 @@ class AlienInvasion:
             self._check_events()
             self.ship.update()
             self._update_bullets()
+            self._update_aliens()
             self._update_screen()
 
     def _check_events(self):
@@ -80,11 +87,28 @@ class AlienInvasion:
             self.bullets.add(new_bullet)
 
     def _update_bullets(self):
+        # Update bullets position
         self.bullets.update()
 
+        # Check for hits on the aliens
+        # If a hit is detected, delete the bullet and the alien
+        collisions = pygame.sprite.groupcollide(
+                    self.bullets, self.aliens, False, True)
+
+        # Remove the bullet since it is out of the screen
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
+
+        # Create new fleet and delete all bullets if there isn't any alien
+        if not self.aliens:
+            self.bullets.empty()
+            self._create_fleet()
+
+    def _update_aliens(self):
+        """ Update the positions of all aliens in the fleet."""
+        self._check_fleet_edges()
+        self.aliens.update()
 
     def _create_fleet(self):
         """ Create the invasion fleet"""
@@ -99,7 +123,7 @@ class AlienInvasion:
 
         # Compute the number of fleet rows
         ship_height = self.ship.rect.height
-        available_space_y = self.settings.screen_heigt - ship_height - (3 * alien_height)
+        available_space_y = self.settings.screen_heigt - ship_height - (8 * alien_height)
         number_rows = available_space_y // (2 * alien_height)
 
         # Create the alien fleet
@@ -117,6 +141,18 @@ class AlienInvasion:
         alien.rect.y = alien.y
         self.aliens.add(alien)
 
+    def _check_fleet_edges(self):
+        """ Reacts if any alien reach the screen edge."""
+        for alien in self.aliens.sprites():
+            if alien.check_edges():
+                self._change_fleet_direction()
+                break
+
+    def _change_fleet_direction(self):
+        """ Lowers the fleet and change its direction."""
+        for alien in self.aliens.sprites():
+            alien.rect.y += self.settings.fleet_drop_speed
+        self.settings.fleet_direction *= -1
 
 
     def _update_screen(self):
