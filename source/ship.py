@@ -10,7 +10,7 @@ class Ship:
         self.settings = ai_game.settings
 
         #загружает изображение корабля и получант прямоугольник
-        self.image_path = 'D:/pycharm_projects/AlienInvasion/images/ship2.bmp'
+        self.image_path = '/Users/alexv/PycharmProjects/AlienInvasion/images/ship2.bmp'
         self.image = pygame.image.load(self.image_path)
         self.rect = self.image.get_rect()
         #каждый новый корабль появляется у нижнего края экрана

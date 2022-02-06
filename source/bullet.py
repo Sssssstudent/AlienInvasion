@@ -15,7 +15,7 @@ class Bullet(Sprite):
         #создание снаряда в позиции (0,0) и назначение правильной позиции
         self.rect = pygame.Rect(0, 0,
                                 self.settings.bullet_width,
-                                self.settings.screen_height)
+                                self.settings.bullet_height)
         self.rect.midtop = ai_game.ship.rect.midtop
 
         #позиция снаряда хранится в вещественном формате
