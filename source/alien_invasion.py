@@ -88,20 +88,36 @@ class AlienInvasion:
 
     def _create_fleet(self):
         """ Create the invasion fleet"""
-        # Create an alien and compute the number of aliens per row
-        # The interval between two aliens is equal to the width of the alien
+        # Create an alien and get its width and height
         alien = Alien(self)
-        alien_width = alien.rect.width
-        available_space_x = self.settings.screen_width - (alien_width * 2)
-        number_aliens_x = available_space_x // (alien_width * 2)
+        alien_width, alien_height = alien.rect.size
+
+        # Compute the number of aliens per row
+        # The interval between two aliens is equal to the width of the alien
+        available_space_x = self.settings.screen_width - (2 * alien_width)
+        number_aliens_x = available_space_x // (2 * alien_width)
+
+        # Compute the number of fleet rows
+        ship_height = self.ship.rect.height
+        available_space_y = self.settings.screen_heigt - ship_height - (3 * alien_height)
+        number_rows = available_space_y // (2 * alien_height)
 
         # Create the alien fleet
-        for alien_number in range(number_aliens_x):
-            # Create an alien and place it in a row
-            alien = Alien(self)
-            alien.x = alien_width + (alien_number * (2 * alien_width))
-            alien.rect.x = alien.x
-            self.aliens.add(alien)
+        for row_number in range(number_rows):
+            for alien_number in range(number_aliens_x):
+                self._create_alien(alien_number, row_number)
+
+    def _create_alien(self, alien_number, row_number):
+        """ Create an alien and place it in a row."""
+        alien = Alien(self)
+        alien_width, alien_height = alien.rect.size
+        alien.x = alien_width + (alien_number * (2 * alien_width))
+        alien.rect.x = alien.x
+        alien.y = alien_height + (row_number * (2 * alien_height))
+        alien.rect.y = alien.y
+        self.aliens.add(alien)
+
+
 
     def _update_screen(self):
         #обновляет изображение на экране и отображает новый экран.
