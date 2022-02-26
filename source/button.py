@@ -21,7 +21,8 @@ class Button():
 
     def _prep_msg(self, msg):
         """преобразует msg в прямоугольник и выравнивает текст по уентру"""
-        self.msg_image = self.font.render(msg, True, self.text_color,
+        self.msg_image = self.font.render(msg, True,
+                                          self.text_color,
                                           self.button_color)
         self.msg_image_rect = self.msg_image.get_rect()
         self.msg_image_rect.center = self.rect.center

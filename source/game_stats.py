@@ -3,7 +3,11 @@ class GameStats():
     def __init__(self, ai_game):
         """иниуиализирует статистику"""
         self.settings = ai_game.settings
+        self.reset_stats()
+
+        #игра запускается в активном состоянии.
+        self.game_active = False
 
     def reset_stats(self):
         """инициализирует статистку, изменяющуюся в ходе игры."""
-        self.ship_left = self.settings.ship_limit
+        self.ships_left = self.settings.ship_limit
